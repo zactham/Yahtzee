@@ -1,0 +1,147 @@
+# Yahtzee
+The classic game Yahtzee made using GUI in 2016 CS AP A
+import java.awt.*;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JApplet;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class Yahtzee extends JApplet
+{
+
+	private ImageIcon titleScreenImage;//image
+
+	public JButton 	titleScButton;//image button
+
+	//All buttons
+
+	//Player 1 Buttons
+	private JButton aces;
+	private JButton twos;
+	private JButton threes;
+	private JButton fours;
+	private JButton fives;
+	private JButton sixes;
+	private JButton threeKind;
+	private JButton fourKind;
+	private JButton fullHouse;
+	private JButton smallStraight;
+	private JButton largeStraight;
+	private JButton Yahtzee;
+	private JButton Chance;
+
+	//Player 2 Buttons
+	private JButton aces2;
+	private JButton twos2;
+	private JButton threes2;
+	private JButton fours2;
+	private JButton fives2;
+	private JButton sixes2;
+	private JButton threeKind2;
+	private JButton fourKind2;
+	private JButton fullHouse2;
+	private JButton smallStraight2;
+	private JButton largeStraight2;
+	private JButton Yahtzee2;
+	private JButton Chance2;
+
+	//Dice Buttons
+	private JFrame Frame1 = new JFrame("Yahtzee!");
+	private JButton D1;
+	private JButton D2;
+	private JButton D3;
+	private JButton D4;
+	private JButton D5;
+	private JButton D6;
+
+	public int Dice1Ran;
+	public int Dice2Ran;
+	public int Dice3Ran;
+	public int Dice4Ran;
+	public int Dice5Ran;
+
+	//Dice Random Numbers
+	public int [] DiceRan = new int [5];
+
+	public void init ()
+	{		
+		//Adds the image and creates a button out of it
+		titleScreenImage = new ImageIcon(this.getClass().getResource("/Yahtzee Pictures/Yahtzee Title Screen.jpg"));//image		
+	//	titleScreenImage = new ImageIcon(this.getClass().getResource("/Yahtzee Pictures/VM.jpg"));//image	
+		titleScButton = new JButton (titleScreenImage);//image button
+		titleScButton.addActionListener (new ButtonPushTitleScreen(this));//when button is pressed
+
+		getContentPane().add(titleScButton);
+		setSize(600,400);
+
+		centerWindow();//centers the window
+	}
+
+	//Centers the window
+	public void centerWindow()
+	{
+		//gets top level window
+		Window window;
+		Container c = getParent();
+		while (c.getParent()!=null) 
+			c = c.getParent();
+
+		// center window
+		if (c instanceof Window)//if it is the top window...
+		{
+			//centers it
+			window = (Window)c;
+			window.pack();
+			window.setLocationRelativeTo(null);					
+		}
+	}
+
+
+	private class ButtonPushTitleScreen implements ActionListener
+	{
+		private Yahtzee theGame;
+
+		// passes the game into the title screen object
+		public ButtonPushTitleScreen(Yahtzee yahtzee) 
+		{
+			theGame = yahtzee;
+		}
+
+		public void actionPerformed (ActionEvent even)
+		{
+			System.out.println("ButtonPushTitleScreen actionPerformed");//tester
+
+			//creates a scorecard
+			DiceScoreCard dice = new DiceScoreCard();
+			dice.init();
+
+			//removes the titleScreen from the game container
+			Container cp = theGame.getContentPane();
+			cp.remove(theGame.titleScButton);
+
+			//adds the dice
+			cp.add(dice); //adds the DiceScoreCard
+
+
+			// choose window size
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			Point middle = new Point(screenSize.width / 2, screenSize.height / 2);
+			Point newLocation = new Point(middle.x - (theGame.getWidth() / 2), 
+					middle.y - (theGame.getHeight() / 2));			
+
+			theGame.setSize((int)(screenSize.width*.85f + 200), (int)(screenSize.height*.85f + 5));
+
+
+			//make the game larger
+			//theGame.setSize(1600,1000);
+
+
+
+			theGame.centerWindow();//centers the window
+		}
+	}
+}
